@@ -1,0 +1,11 @@
+version: '2.4'
+services:
+  server:
+    container_name: server
+    image: zartsoft/fedora:server
+    build:
+      context: .
+      target: server
+    hostname: server.zartsoft.ru
+    tty: true
+    #privileged: true
