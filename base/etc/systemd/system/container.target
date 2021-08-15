@@ -5,3 +5,6 @@ Conflicts=rescue.service rescue.target
 After=basic.target rescue.service rescue.target
 Wants=rsyslog.service postfix.service
 AllowIsolate=yes
+
+[Install]
+Alias=runlevel4.target
