@@ -10,3 +10,8 @@ services:
     tty: true
     privileged: true
     userns_mode: "host"
+    network_mode: bridge
+# networks:
+#   default:
+#     name: bridge
+#     external: true
