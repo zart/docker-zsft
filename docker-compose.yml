@@ -21,4 +21,4 @@ services:
     tty: true
     #privileged: true
     network_mode: bridge
-    logging: { driver: local }
+    #logging: { driver: local }
