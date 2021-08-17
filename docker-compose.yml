@@ -1,4 +1,14 @@
-version: '2.4'
+version: '2.0'
+x-services:
+  loghost:
+  dns:
+  pki:
+  mail:
+  krb:
+  irc:
+  finger:
+  whois:
+  news:
 services:
   server:
     container_name: server
@@ -7,11 +17,8 @@ services:
     build:
       context: .
       target: server
+    command: [ "/usr/lib/systemd/systemd", "quiet" ]
     tty: true
-    privileged: true
-    userns_mode: "host"
+    #privileged: true
     network_mode: bridge
-# networks:
-#   default:
-#     name: bridge
-#     external: true
+    logging: { driver: local }
