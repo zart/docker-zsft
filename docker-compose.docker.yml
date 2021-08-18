@@ -11,5 +11,6 @@ services:
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    network_mode: bridge
 # other services
 #  loghost: *common
