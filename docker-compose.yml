@@ -17,9 +17,7 @@ services:
     build:
       context: .
       target: server
-    command: [ "/usr/lib/systemd/systemd", "quiet" ]
+    command: [ "/usr/lib/systemd/systemd", "quiet"] #, "udev.loglevel=3" ]
     tty: true
     #privileged: true
     #network_mode: bridge
-    #logging: { driver: local }
-    #logging: { driver: journald }

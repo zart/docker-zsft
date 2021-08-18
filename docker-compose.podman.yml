@@ -1,0 +1,6 @@
+# for podman on linux
+services:
+  server:
+    &common
+    logging:
+      driver: journald

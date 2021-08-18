@@ -1,10 +1,15 @@
+# overrides for docker desktop on windows
 services:
   server:
     &common
+    # switch from json-file
+    logging:
+      driver: local
     # systemd support for non-rh docker
     tmpfs:
       - /run
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+# other services
 #  loghost: *common
