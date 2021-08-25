@@ -31,7 +31,9 @@ RUN --mount=target=/var/cache/dnf,type=cache \
       rm -f /etc/NetworkManager/system-connections/* && \
       systemctl --no-reload disable NetworkManager-wait-online
 
-FROM base as systemd
+FROM docker.io/zartsoft/fedora:base as systemd
 ADD container.tgz /usr/lib/systemd/
-CMD [ "/usr/lib/systemd/systemd" ]
 STOPSIGNAL 37
+CMD [ "/usr/lib/systemd/systemd" ]
+
+FROM systemd as server
