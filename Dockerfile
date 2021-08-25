@@ -1,10 +1,9 @@
 # syntax=docker/dockerfile:1
-
-ENV maintainer=Konstantin Zemlyak <zart@zartsoft.ru>
-
-# install most of the @core, exclude sudo and vim, add mc and tmux
-# clean some crap
 FROM docker.io/zartsoft/fedora:34 as base
+
+ENV maintainer="Konstantin Zemlyak <zart@zartsoft.ru>"
+
+# install most of the @core, exclude sudo and vim, add mc and tmux, cleanup
 RUN --mount=target=/var/cache/dnf,type=cache \
     echo install_weak_deps=False >> /etc/dnf/dnf.conf && \
     rm /etc/dnf/protected.d/sudo.conf && \
