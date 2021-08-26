@@ -1,0 +1,32 @@
+version: '3.4'
+x-common:
+  &common
+  domainname: $DOMAIN
+  build:
+    context: .
+    args:
+      # corporate proxy
+      http_proxy: http://10.8.229.82:3128
+      https_proxy: http://10.8.229.82:3128
+      ftp_proxy: http://10.8.229.82:3128
+      no_proxy: localhost,.local,127.,10.,192.168.
+  tty: true
+  #privileged: true
+  # make container read-only, but mark etc and var as writable
+  #read_only: true
+  #volumes:
+  #  - /etc
+  #  - /var
+  # systemd support
+  command: [ '/usr/lib/systemd/systemd', 'quiet' ]
+  tmpfs:
+    - /run
+    - /tmp
+  volumes:
+    - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  # docker health checking
+  healthcheck:
+    test: ['CMD', '/usr/bin/systemctl', 'is-system-running' ]
+services:
+  loghost: *common
+  server: *common

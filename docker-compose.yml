@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  loghost:
+    hostname: loghost.$DOMAIN
+    image: $IMAGE:loghost
+    build:
+      target: loghost
+  server:
+    hostname: server.$DOMAIN
+    image: $IMAGE:common
+    build:
+      target: common
