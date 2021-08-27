@@ -1,0 +1,15 @@
+[Unit]
+After=rsyslog.service
+ConditionPathExists=/dev/console
+ConditionPathExists=/var/log/central/all
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/cat /var/log/central/all
+# Allow to shutdown container on ^C
+#ExecStopPost=/usr/sbin/halt
+StandardOutput=tty
+TTYPath=/dev/console
+
+[Install]
+WantedBy=container.target

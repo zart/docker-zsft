@@ -1,0 +1,16 @@
+/var/log/central/by-host/*/all
+/var/log/central/by-host/*/cron
+/var/log/central/by-host/*/maillog
+/var/log/central/by-host/*/messages
+/var/log/central/by-host/*/secure
+/var/log/central/by-host/*/spooler
+{
+    weekly
+    rotate 4
+    compress
+    missingok
+    sharedscripts
+    postrotate
+        /usr/bin/systemctl kill -s HUP rsyslog.service >/dev/null 2>&1 || true
+    endscript
+}

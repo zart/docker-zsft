@@ -11,6 +11,7 @@ x-common:
       ftp_proxy: http://10.8.229.82:3128
       no_proxy: localhost,.local,127.,10.,192.168.
   tty: true
+  dns_search: $DOMAIN
   #privileged: true
   # make container read-only, but mark etc and var as writable
   #read_only: true

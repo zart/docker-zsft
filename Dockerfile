@@ -47,6 +47,7 @@ RUN --mount=target=/var/cache/dnf,type=cache \
       ftp \
       git \
       krb5-workstation \
+      lnav \
       mailx \
       mercurial \
       mlocate \
@@ -71,6 +72,7 @@ RUN systemctl --no-reload add-wants container rsyslog postfix sssd oddjobd
 
 FROM common as loghost
 ADD loghost.tgz /
+RUN systemctl --no-reload add-wants container consolelog
 
 FROM common as krb5
 RUN --mount=target=/var/cache/dnf,type=cache dnf -y install krb5-server

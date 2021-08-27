@@ -1,12 +1,20 @@
 version: '3.4'
 services:
   loghost:
-    hostname: loghost.$DOMAIN
+    hostname: loghost
+    domainname: $DOMAIN
+    container_name: loghost
     image: $IMAGE:loghost
     build:
       target: loghost
   server:
-    hostname: server.$DOMAIN
+    hostname: server
+    domainname: $DOMAIN
     image: $IMAGE:common
     build:
       target: common
+    depends_on:
+      - loghost
+networks:
+  default:
+    name: $DOMAIN
