@@ -4,12 +4,12 @@ x-common:
   domainname: $DOMAIN
   build:
     context: .
-    args:
-      # corporate proxy
-      http_proxy: http://10.8.229.82:3128
-      https_proxy: http://10.8.229.82:3128
-      ftp_proxy: http://10.8.229.82:3128
-      no_proxy: localhost,.local,127.,10.,192.168.
+    # args:
+    #   # corporate proxy
+    #   http_proxy: http://10.8.229.82:3128
+    #   https_proxy: http://10.8.229.82:3128
+    #   ftp_proxy: http://10.8.229.82:3128
+    #   no_proxy: localhost,.local,127.,10.,192.168.
   tty: true
   dns_search: $DOMAIN
   #privileged: true

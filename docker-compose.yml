@@ -3,16 +3,17 @@ services:
   loghost:
     hostname: loghost
     domainname: $DOMAIN
-    container_name: loghost
     image: $IMAGE:loghost
+    container_name: loghost
     build:
       target: loghost
   server:
     hostname: server
     domainname: $DOMAIN
-    image: $IMAGE:common
+    image: $IMAGE:server
+    container_name: server
     build:
-      target: common
+      target: server
     depends_on:
       - loghost
 networks:

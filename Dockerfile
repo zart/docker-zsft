@@ -1,4 +1,8 @@
 # syntax=docker/dockerfile:1
+
+## base image
+## slightly customized version of choosen distro with minimal software
+
 FROM docker.io/zartsoft/fedora:34 as base
 
 # install most of the @core, exclude sudo and vim, add some stuff, cleanup
@@ -30,13 +34,18 @@ RUN --mount=target=/var/cache/dnf,type=cache \
       rm -f /etc/NetworkManager/system-connections/* && \
       systemctl --no-reload disable NetworkManager-wait-online
 
+## systemd
+## systemdized edition of the base
+
 FROM docker.io/zartsoft/fedora:base as systemd
 ADD container.tgz /usr/lib/systemd/
 STOPSIGNAL 37
 CMD [ "/usr/lib/systemd/systemd" ]
 
+## server
+## customized server with support for shared user accounts
 
-FROM systemd as common
+FROM systemd as server
 RUN --mount=target=/var/cache/dnf,type=cache \
     dnf -y install \
       authselect \
@@ -70,37 +79,16 @@ ADD common.tgz /
 RUN authselect select sssd with-mkhomedir -f && authselect apply-changes
 RUN systemctl --no-reload add-wants container rsyslog postfix sssd oddjobd
 
-FROM common as loghost
+## loghost
+## centralized loghost, should accept UDP/TCP syslog messages of domain
+
+FROM server as loghost
 ADD loghost.tgz /
 RUN systemctl --no-reload add-wants container consolelog
 
-FROM common as krb5
+## kdc
+## kerberos5 kdc
+
+FROM server as krb5
 RUN --mount=target=/var/cache/dnf,type=cache dnf -y install krb5-server
 RUN systemctl --no-reload add-wants container krb5kdc kprop
-
-FROM common as dns
-RUN --mount=target=/var/cache/dnf,type=cache dnf -y install bind
-
-FROM common as web
-RUN --mount=target=/var/cache/dnf,type=cache dnf -y install httpd-itk certbot
-
-FROM common as news
-RUN --mount=target=/var/cache/dnf,type=cache dnf -y install inn
-
-FROM common as jabberd
-RUN --mount=target=/var/cache/dnf,type=cache dnf -y install jabberd
-
-FROM common as haproxy
-RUN --mount=target=/var/cache/dnf,type=cache dnf -y install haproxy
-
-FROM common as mail
-RUN --mount=target=/var/cache/dnf,type=cache \
-    dnf -y install \
-      dovecot \
-      dovecot-pigeonhole \
-      opendkim \
-      opendmarc \
-      pypolicyd-spf
-
-FROM common as postgresql
-RUN --mount=target=/var/cache/dnf,type=cache dnf -y install postgresql
