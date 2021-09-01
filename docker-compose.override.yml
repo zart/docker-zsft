@@ -19,10 +19,7 @@ x-common:
   #  - /etc
   #  - /var
   # systemd support
-  command: [ '/usr/lib/systemd/systemd', 'quiet' ]
-  tmpfs:
-    - /run
-    - /tmp
+  command: [ '/usr/sbin/init', 'quiet' ]
   volumes:
     - /sys/fs/cgroup:/sys/fs/cgroup:ro
   # docker health checking
